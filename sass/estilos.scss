@@ -1,0 +1,39 @@
+$tamano-caja: 80px;
+
+body {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+}
+
+#tablero {
+  --columnas: 6;   // valor por defecto; JS lo sobrescribe en cada partida
+  --gap: 8px;
+
+  display: grid;
+  grid-template-columns: repeat(var(--columnas), minmax(0, 1fr));
+  gap: var(--gap);
+  margin: 20px auto;
+  width: 100%;
+  max-width: calc(var(--columnas) * 80px + (var(--columnas) - 1) * var(--gap));
+
+  @media (max-width: 600px) {
+    --gap: 4px;
+  }
+}
+
+.caja {
+  aspect-ratio: 1;
+  background-color: black;
+  border-radius: 6px;
+  cursor: pointer;
+  touch-action: manipulation;
+
+  &.revelada {
+    cursor: default;
+  }
+
+  &.emparejada {
+    cursor: default;
+    opacity: 0.7;
+  }
+}
