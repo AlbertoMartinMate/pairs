@@ -25,8 +25,10 @@ const saludo = document.getElementById("saludo");
 const nombreJugador = document.getElementById("nombre-jugador");
 const botonCambiar = document.getElementById("cambiar-jugador");
 
-const tituloRanking = document.getElementById("titulo-ranking");
+const panelRanking = document.getElementById("ranking-panel");
+const selectRanking = document.getElementById("ranking-nivel");
 const listaRanking = document.getElementById("ranking");
+const rankingVacio = document.getElementById("ranking-vacio");
 
 // ----- Perfil -----
 
@@ -56,25 +58,20 @@ botonCambiar.addEventListener("click", () => {
 
 // ----- Ranking -----
 
-// Pinta el top 5 del nivel actual (en el modo personalizado no hay ranking)
+// Rellena el selector con todas las modalidades
+NIVELES.forEach((nivel) => {
+    const opcion = document.createElement("option");
+    opcion.value = nivel.id;
+    opcion.textContent = `${nivel.nombre} (${nivel.columnas} x ${nivel.filas})`;
+    selectRanking.appendChild(opcion);
+});
+
+// Pinta el top 5 de la modalidad elegida en el selector
 function mostrarRanking() {
     listaRanking.textContent = "";
 
-    const id = juego.config ? juego.config.id : null;
-    tituloRanking.hidden = id === null;
-    listaRanking.hidden = id === null;
-    if (id === null) return;
-
-    const nivel = NIVELES.find((n) => n.id === id);
-    tituloRanking.textContent = `Top 5 · ${nivel.nombre}`;
-
-    const lista = ranking.obtener(id);
-    if (lista.length === 0) {
-        const vacio = document.createElement("li");
-        vacio.textContent = "Todavía no hay récords";
-        listaRanking.appendChild(vacio);
-        return;
-    }
+    const lista = ranking.obtener(selectRanking.value);
+    rankingVacio.hidden = lista.length > 0;
 
     lista.forEach((registro) => {
         const li = document.createElement("li");
@@ -84,19 +81,24 @@ function mostrarRanking() {
     });
 }
 
+// Al cambiar de modalidad en el selector, se actualiza la lista
+selectRanking.addEventListener("change", mostrarRanking);
+
 // Game avisa aquí cuando se GANA una partida de un nivel con ranking
 juego.alTerminar = ({ nivelId, tiempo, intentos }) => {
     const nombre = perfil.obtener();
 
     if (nombre === null) {
         mensaje.textContent += " Escribe tu nombre arriba para guardar tus récords.";
-        return;
+    } else {
+        const entro = ranking.guardar(nivelId, { nombre, tiempo, intentos, fecha: Date.now() });
+        if (entro) mensaje.textContent += " ¡Estás en el top 5!";
     }
 
-    const entro = ranking.guardar(nivelId, { nombre, tiempo, intentos, fecha: Date.now() });
-    if (entro) mensaje.textContent += " ¡Estás en el top 5!";
-
+    // Enseña el ranking de ese nivel, desplegado
+    selectRanking.value = nivelId;
     mostrarRanking();
+    panelRanking.open = true;
 };
 
 // ----- Partidas -----
@@ -106,10 +108,14 @@ function puedeCambiar() {
     return !juego.enCurso || confirm("Tienes una partida en curso. ¿Seguro que quieres abandonarla?");
 }
 
-// Empieza una partida y actualiza el ranking mostrado
+// Empieza una partida; si es un nivel, el selector se coloca en esa modalidad
 function empezar(config) {
     juego.iniciar(config);
-    mostrarRanking();
+
+    if (config.id) {
+        selectRanking.value = config.id;
+        mostrarRanking();
+    }
 }
 
 // Un botón por cada nivel de la tabla
@@ -161,6 +167,11 @@ formulario.addEventListener("submit", (event) => {
 
 pintarPerfil();
 juego.arrancar();   // continúa la partida guardada (si la hay)
+
+// Si se restauró una partida de un nivel, el selector se coloca en ese nivel
+if (juego.config && juego.config.id !== null) {
+    selectRanking.value = juego.config.id;
+}
 mostrarRanking();
 
 // Si se restauró una partida del modo personalizado, refleja sus medidas
