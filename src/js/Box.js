@@ -15,7 +15,7 @@ export default class Box {
     }
 
     hide() {
-        this.element.style.backgroundColor = "black";
+        this.element.style.backgroundColor = "";
         this.element.classList.remove("revelada");
     }
 

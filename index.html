@@ -4,24 +4,44 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>primer-proyecto</title>
+    <title>Juegos</title>
   </head>
   <body>
         <h1>Juego de las parejas</h1>
     <details>
       <summary>Como se juega</summary>
-      <p>Juguemos a adivinar las parejas. Primero ingresa el número de filas y columnas. Inicialmente todas las cajas aparecerán negras. Al pinchar por primera vez, se revelará el color, al pinchar una segunda vez si coincide el color, habras descubierto una pareja, sino, se volveran negras y tendras q volver a intentarlo. El programa debe detectar cuándo están todas las cajas emparejadas y cuánto tiempo has tardado en resolverlo.</p>
+      <p>Juguemos a adivinar las parejas. Primero selecciona el modo de juego. Inicialmente todas las cajas aparecerán negras. Al pinchar por primera vez, se revelará el color, al pinchar una segunda vez si coincide el color, habras descubierto una pareja, sino, se volveran negras y tendras q volver a intentarlo. El programa debe detectar cuándo están todas las cajas emparejadas y cuánto tiempo has tardado en resolverlo.</p>
     </details>
 
-    <p>Intentos: <span id="intentos">0</span> <button id="nueva-partida">Nueva partida</button></p>
+    <section>
+      <form id="form-perfil">
+        <label>Tu nombre: <input type="text" id="nombre" maxlength="12" required></label>
+        <button type="submit">Entrar</button>
+      </form>
+      <p id="saludo" hidden>
+        Jugador: <strong id="nombre-jugador"></strong>
+        <button type="button" id="cambiar-jugador">Cambiar</button>
+      </p>
+    </section>
     
-    <form id="config">
-      <label>Columnas: <input type="number" id="columnas" required min="2" max="10"></label>
-      <label>Filas: <input type="number" id="filas" required min="2" max="10"></label>
-      <button type="submit">Empezar</button>
-    </form>
+    <section>
+      <h2>Elige modalidad</h2>
+      <div id="niveles"></div>
+
+      <details>
+        <summary>Modo personalizado (sin récords)</summary>
+        <form id="config">
+          <label>Columnas: <input type="number" id="columnas" required min="2" max="10"></label>
+          <label>Filas: <input type="number" id="filas" required min="2" max="10"></label>
+          <button type="submit">Empezar</button>
+        </form>
+      </details>
+    </section>
     
     <div id="tablero"></div>
+
+    <p>Intentos: <span id="intentos">0</span> · Tiempo: <span id="tiempo">0:00</span>
+      <button id="nueva-partida">Nueva partida</button></p>
     
     <p id="mensaje"></p>
 

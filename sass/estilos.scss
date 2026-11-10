@@ -37,3 +37,10 @@ body {
     opacity: 0.7;
   }
 }
+
+  #niveles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
