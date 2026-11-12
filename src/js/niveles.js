@@ -7,8 +7,8 @@ export const NIVELES = [
     { id: "normal",      nombre: "Normal",      columnas: 3,  filas: 4,  maxIntentos: 15, maxTiempo: 40 },
     { id: "normal-plus", nombre: "Normal +",    columnas: 4,  filas: 4,  maxIntentos: 18, maxTiempo: 60 },
     { id: "medio",       nombre: "Medio",       columnas: 4,  filas: 5,  maxIntentos: 26, maxTiempo: 90 },
-    { id: "dificil",     nombre: "Difícil",     columnas: 5,  filas: 6,  maxIntentos: 40, maxTiempo: 120 },
-    { id: "muy-dificil", nombre: "Muy difícil", columnas: 6,  filas: 8,  maxIntentos: 60, maxTiempo: 260 },
-    { id: "experto",     nombre: "Experto",     columnas: 8,  filas: 10, maxIntentos: 90, maxTiempo: 500 },
-    { id: "maestro",     nombre: "Maestro",     columnas: 10, filas: 10, maxIntentos: 115, maxTiempo: 900 }
+    { id: "dificil",     nombre: "Difícil",     columnas: 5,  filas: 6,  maxIntentos: 50, maxTiempo: 120 },
+    { id: "muy-dificil", nombre: "Muy difícil", columnas: 6,  filas: 8,  maxIntentos: 70, maxTiempo: 260 },
+    { id: "experto",     nombre: "Experto",     columnas: 8,  filas: 10, maxIntentos: 100, maxTiempo: 500 },
+    { id: "maestro",     nombre: "Maestro",     columnas: 10, filas: 10, maxIntentos: 130, maxTiempo: 900 }
 ];
